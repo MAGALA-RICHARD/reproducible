@@ -1,11 +1,14 @@
 (Recommended) Use a virtual environment
-# from this project folder
-python -m venv .venv
-# activate it
-# Windows:
-.venv\Scripts\activate
-# macOS/Linux:
-source .venv/bin/activate
+# from this project folder/directory
+
+.. code-block:: bash
+
+    python -m venv .venv
+    # activate it
+    # Windows:
+    .venv\Scripts\activate
+    # macOS/Linux:
+    source .venv/bin/activate
 
 
 Upgrade pip (optional but helpful)
@@ -16,7 +19,13 @@ Upgrade pip (optional but helpful)
 
 Install the frozen requirements
 
+.. code-block:: bash
+
      pip install -r requirements.txt
 
-python -m pip install -U uv
-uv pip install -r requirements.txt
+if you use uv
+
+.. code-block:: bash
+
+    python -m pip install -U uv
+    uv pip install -r requirements.txt
