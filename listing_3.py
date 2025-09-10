@@ -1,16 +1,16 @@
-from apsimNGpy.core.apsim import ApsimModel
 from apsimNGpy.core.mult_cores import MultiCoreManager
 from pathlib import Path
 import shutil
 from apsimNGpy.core.config import load_crop_from_disk
+
 if __name__ == "__main__":
-    base_dir = Path(__file__).parent/'demo'
+    base_dir = Path(__file__).parent / 'demo'
     base_dir.mkdir(parents=True, exist_ok=True)
     # create some jobs for the demo
     base_model = load_crop_from_disk("Maize")
-    create_jobs = (shutil.copy2(base_model, str(base_dir/f'_{i}_.apsimx')) for i in range(2000))
-    #initialize multicore manager
-    task_manager = MultiCoreManager(str(base_dir/'demo.db'), agg_func='mean')
+    create_jobs = (shutil.copy2(base_model, str(base_dir / f'_{i}_.apsimx')) for i in range(1000))
+    # initialize multicore manager
+    task_manager = MultiCoreManager(str(base_dir / 'demo.db'), agg_func='mean')
 
     # run all jobs
     task_manager.run_all_jobs(create_jobs, n_cores=16, threads=False, clear_db=True)
