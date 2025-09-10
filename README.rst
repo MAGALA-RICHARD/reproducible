@@ -1,6 +1,7 @@
-(Recommended) Use a virtual environment
+This is a reproducible folder for testing apsimNGpy
+=======================================================
+Use a virtual environment (Highly recommended)
 # from this project folder/directory
-
 .. code-block:: bash
 
     python -m venv .venv
