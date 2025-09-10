@@ -11,7 +11,7 @@ an APSIM Next Generation model object and accessing its path.
 
 from apsimNGpy.core.apsim import ApsimModel
 from pathlib import Path
-
+from config import logger
 wd = Path(__file__).parent / 'demo'
 wd.mkdir(exist_ok=True)
 
@@ -51,4 +51,5 @@ dfs = model.get_simulated_output(report_names='Report')
 # save edited file
 filename = str((wd / 'my-edited-maize-model.apsimx').resolve())
 model.save(file_name=filename)
-print(df)
+logger.info(f'Saved edited model to {filename}')
+logger.info(f"see simulated results below:\n{df}")

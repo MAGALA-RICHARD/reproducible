@@ -5,6 +5,8 @@ from pathlib import Path
 import os
 from constants import custom_colors
 from apsimNGpy.core.experimentmanager import ExperimentManager as Experiment
+from config import logger
+
 if __name__ == '__main__':
     wd = Path(__file__).parent / 'apsimx'
     wd.mkdir(exist_ok=True)
@@ -27,10 +29,8 @@ if __name__ == '__main__':
                            ylabel='Simulated corn grain yield (kg ha $^{-1}$)',
                            xlabel='Nitrogen fertilizer (kg ha $^{-1}$)')
 
-
-
-
-    os.startfile(wd / 'experiment.png')
-
-
-
+    logger.info('succeeded')
+    try:
+        os.startfile(wd / 'experiment.png')
+    except Exception as e:
+        logger.error(e, f" opening the file automatically Please Open rendered plot at {wd / 'experiment.png'}")
