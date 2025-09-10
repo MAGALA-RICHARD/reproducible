@@ -29,3 +29,7 @@ If you use uv
 
     python -m pip install -U uv
     uv pip install -r requirements.txt
+
+
+run listing_1, listing_2 and listing_3 all are within this current directory
+
