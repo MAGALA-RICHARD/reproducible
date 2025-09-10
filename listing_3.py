@@ -7,7 +7,7 @@ if __name__ == "__main__":
     base_dir = Path(__file__).parent / 'demo'
     base_dir.mkdir(parents=True, exist_ok=True)
     # create some jobs for the demo
-    base_model = load_crop_from_disk("Maize")
+    base_model = load_crop_from_disk("Maize", out=base_dir / "base.apsimx")
     create_jobs = (shutil.copy2(base_model, str(base_dir / f'_{i}_.apsimx')) for i in range(1000))
     # initialize multicore manager
     task_manager = MultiCoreManager(str(base_dir / 'demo.db'), agg_func='mean')
@@ -20,3 +20,4 @@ if __name__ == "__main__":
     df = task_manager.get_simulated_output(axis=0)
     # same as
     data = task_manager.results
+

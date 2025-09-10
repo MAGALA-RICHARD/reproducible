@@ -15,7 +15,7 @@ from pathlib import Path
 wd = Path(__file__).parent / 'demo'
 wd.mkdir(exist_ok=True)
 
-_out_path = wd / 'out_maize.apsimx'
+_out_path = wd / 'out_maize_1111.apsimx'
 # Create a model instance (using "Maize" as an example)
 model = ApsimModel("Maize", out_path=_out_path)
 # change the planting density
