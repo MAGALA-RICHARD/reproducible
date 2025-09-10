@@ -1,6 +1,9 @@
 This is a reproducible folder for testing apsimNGpy
 =======================================================
 
+This directory should only be used on windows only as the APSIM binaries are compiled for windows only
+
+
 .. code-block:: bash
 
    git clone https://github.com/MAGALA-RICHARD/reproducible.git
@@ -9,6 +12,8 @@ This is a reproducible folder for testing apsimNGpy
 
 Use a virtual environment (Highly recommended)
 # from this project folder/directory
+
+
 .. code-block:: bash
 
     python -m venv .venv
@@ -45,7 +50,13 @@ git install is required to clone the remote repository
 run listing_1, listing_2 and listing_3 all are within this current directory
 
 .. code-block:: bash
-    list
+
+     python listing_1.py
+     python listing_2.py
+     python listing_3.py
+     performance_analysis.py
+
+
 
 
 
