@@ -60,7 +60,7 @@ cover/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-
+*.ini
 # Flask stuff:
 instance/
 .webassets-cache
@@ -143,7 +143,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-
+./*apsimx
 # Spyder project settings
 .spyderproject
 .spyproject
