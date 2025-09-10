@@ -15,7 +15,7 @@ Upgrade pip (optional but helpful)
 
 .. code-block:: bash
 
-   python -m pip install --upgrade pip setuptools wheel
+    python -m pip install --upgrade pip setuptools wheel
 
 Install the frozen requirements
 
@@ -23,7 +23,7 @@ Install the frozen requirements
 
      pip install -r requirements.txt
 
-if you use uv
+If you use uv
 
 .. code-block:: bash
 
