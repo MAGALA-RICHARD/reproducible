@@ -1,5 +1,12 @@
 This is a reproducible folder for testing apsimNGpy
 =======================================================
+
+.. code-block:: bash
+
+   git clone https://github.com/MAGALA-RICHARD/reproducible.git
+   cd reproducible
+
+
 Use a virtual environment (Highly recommended)
 # from this project folder/directory
 .. code-block:: bash
@@ -32,5 +39,13 @@ If you use uv
     uv pip install -r requirements.txt
 
 
+git install is required to clone the remote repository
+
+
 run listing_1, listing_2 and listing_3 all are within this current directory
+
+.. code-block:: bash
+    list
+
+
 
