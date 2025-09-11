@@ -11,8 +11,8 @@ an APSIM Next Generation model object and accessing its path.
 
 from apsimNGpy.core.apsim import ApsimModel
 from pathlib import Path
-from config import logger
-wd = Path(__file__).parent / 'demo'
+from config import logger, BASE_DIR
+wd = BASE_DIR / 'demo'
 wd.mkdir(exist_ok=True)
 if __name__ == '__main__':
     logger.info('Starting APSIM Next Generation')

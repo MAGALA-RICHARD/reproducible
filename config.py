@@ -2,6 +2,8 @@ from apsimNGpy.core.config import set_apsim_bin_path, get_apsim_bin_path, apsim_
 from dotenv import load_dotenv
 import logging
 from pathlib import Path
+# do not move this file away from the root: reproducible
+BASE_DIR = Path(__file__).parent
 
 logging.basicConfig(
     level=logging.INFO,
