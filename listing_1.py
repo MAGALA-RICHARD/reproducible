@@ -49,6 +49,8 @@ if __name__ == '__main__':
     df = model.results
     # same as
     dfs = model.get_simulated_output(report_names='Report')
+    mn =dfs.mean(numeric_only=True)
+    logger.info(f"mean summary of the data:\n {mn}")
     # save edited file
     filename = str((wd / 'my-edited-maize-model.apsimx').resolve())
     model.save(file_name=filename)
