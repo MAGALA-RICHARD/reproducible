@@ -79,3 +79,12 @@ Try the set_up.bat
 All the above steps have been bundled in set_up.bat. All that is needed it to install .NET using the link above
 
 After the installation, navigate back or clone the repo and double click on set_up.bat
+
+
+see the command line steps below
+
+.. code-block:: bash
+
+    git clone https://github.com/MAGALA-RICHARD/reproducible.git
+    cd reproducible
+    start set_up.bat

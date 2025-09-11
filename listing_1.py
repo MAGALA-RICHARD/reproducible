@@ -53,7 +53,11 @@ if __name__ == '__main__':
     logger.info(f"mean summary of the data:\n {mn}")
     # save edited file
     filename = str((wd / 'my-edited-maize-model.apsimx').resolve())
+    # save simulated data
+    csv_file_name= str((wd / 'simulated'))
+    df.to_csv(csv_file_name)
+    logger.info(f"simulated data saved to: {csv_file_name}")
     model.save(file_name=filename)
-    logger.info(f'Saved edited model to {filename}')
+    logger.info(f'Saved edited model to {filename}\n')
     logger.info(f"see simulated results below:\n{df}")
     logger.info(f"successfully executed listing code 1")

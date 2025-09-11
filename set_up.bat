@@ -58,7 +58,7 @@ for %%S in (listing_1.py listing_2.py listing_3.py performance_analysis.py) do (
   )
 )
 
-REM --- If you passed "shell", open an ACTIVATED CMD that stays open
+REM ---  open an ACTIVATED CMD that stays open
 if /i "%~1"=="shell" (
   echo [OK] Opening an activated shell. Close it to exit.
   cmd /k call ".venv\Scripts\activate.bat"
