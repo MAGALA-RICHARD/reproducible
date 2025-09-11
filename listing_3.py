@@ -1,18 +1,13 @@
-from apsimNGpy.core.mult_cores import MultiCoreManager
-from pathlib import Path
 import shutil
-import logging
-from apsimNGpy.core.config import load_crop_from_disk
+from pathlib import Path
 
-# should be called after listing 1 or 2
-logger = logging.getLogger("app")
+
 if __name__ == "__main__":
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s | %(levelname)s | %(message)s",
-        datefmt="%H:%M:%S",
-    )
-    logger = logging.getLogger("app")
+    # please maintain the oder of imports here
+    from config import logger
+    from apsimNGpy.core.config import load_crop_from_disk
+    from apsimNGpy.core.mult_cores import MultiCoreManager
+
     logger.info('Loading data. for parallel processing..')
     base_dir = Path(__file__).parent / 'demo'
     base_dir.mkdir(parents=True, exist_ok=True)
@@ -31,4 +26,3 @@ if __name__ == "__main__":
     # same as
     data = task_manager.results
     logger.info('successfully completed listing 3')
-
