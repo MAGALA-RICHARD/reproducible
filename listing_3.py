@@ -14,7 +14,7 @@ if __name__ == "__main__":
     task_manager = MultiCoreManager(str(base_dir / 'demo.db'), agg_func='mean')
 
     # run all jobs
-    task_manager.run_all_jobs(create_jobs, n_cores=6, threads=False, clear_db=True)
+    task_manager.run_all_jobs(create_jobs, n_cores=8, threads=False, clear_db=True)
     # clear scratch directory
     task_manager.clear_scratch()
     # get the results
