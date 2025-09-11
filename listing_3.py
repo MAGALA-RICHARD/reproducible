@@ -4,6 +4,7 @@ import shutil
 from apsimNGpy.core.config import load_crop_from_disk
 from config import logger
 if __name__ == "__main__":
+    logger.info('Loading data. for parallel processing..')
     base_dir = Path(__file__).parent / 'demo'
     base_dir.mkdir(parents=True, exist_ok=True)
     # create some jobs for the demo
