@@ -11,6 +11,7 @@ Prerequisites
 - Windows 10 or 11
 - Python 3.9+ (recommended 3.10–3.12)
 - Git (to clone this repository)
+- . NET 8.0 https://dotnet.microsoft.com/en-us/download/dotnet/8.0
 
 Clone the repository
 --------------------
