@@ -30,9 +30,6 @@ if errorlevel 1 (
   exit /b 1
 )
 
-REM --- (Optional) Upgrade packaging tools ---
-python -m pip install --upgrade pip setuptools wheel
-
 REM --- Install requirements ---
 if exist "requirements.txt" (
   echo [INFO] Installing from requirements.txt ...
