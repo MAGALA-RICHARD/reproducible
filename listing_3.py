@@ -1,9 +1,18 @@
 from apsimNGpy.core.mult_cores import MultiCoreManager
 from pathlib import Path
 import shutil
+import logging
 from apsimNGpy.core.config import load_crop_from_disk
-from config import logger
+
+# should be called after listing 1 or 2
+logger = logging.getLogger("app")
 if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s | %(levelname)s | %(message)s",
+        datefmt="%H:%M:%S",
+    )
+    logger = logging.getLogger("app")
     logger.info('Loading data. for parallel processing..')
     base_dir = Path(__file__).parent / 'demo'
     base_dir.mkdir(parents=True, exist_ok=True)
