@@ -72,3 +72,5 @@ Troubleshooting
 - If package installation fails, confirm the virtual environment is active and retry ``pip install -r requirements.txt``.
 - If a script cannot find APSIM binaries, verify the folder layout and environment variables expected by your configuration.
 - you may also rebuild or install apsim version 7844 and provide the path to config.py
+
+try the set_up.bat
