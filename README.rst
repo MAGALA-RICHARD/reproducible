@@ -73,4 +73,9 @@ Troubleshooting
 - If a script cannot find APSIM binaries, verify the folder layout and environment variables expected by your configuration.
 - you may also rebuild or install apsim version 7844 and provide the path to config.py
 
-try the set_up.bat
+Try the set_up.bat
+========================
+
+All the above steps have been bundled in set_up.bat. All that is needed it to install .NET using the link above
+
+After the installation, navigate back or clone the repo and double click on set_up.bat
