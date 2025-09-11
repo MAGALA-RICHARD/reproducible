@@ -10,19 +10,21 @@ logging.basicConfig(
 )
 logger = logging.getLogger("app")
 
-
+logger.info('setting APSIM bin path')
 # load env
 load_dotenv()
 # get a current bin path
 CUR_BIN_PATH = get_apsim_bin_path()
 
+base_dir = Path(__file__).parent
 # get bin bath
-env_BIN_PATH = Path(r'./dist/APSIM_2025.8.7844.0').resolve()
+env_BIN_PATH = Path(base_dir/'dist/APSIM_2025.8.7844.0/bin')
 
-set_apsim_bin_path(env_BIN_PATH)
+set_bin = set_apsim_bin_path(env_BIN_PATH)
 
 version = apsim_version()
-logger.info(f"{version} successfully loaded to path")
+if set_bin:
+    logger.info(f"{version} successfully loaded to path")
 
 
 
