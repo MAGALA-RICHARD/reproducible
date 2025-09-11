@@ -1,6 +1,21 @@
 import shutil
 
 if __name__ == "__main__":
+    def enable_vt100_on_windows():
+        import os
+        if os.name != 'nt':
+            return
+        try:
+            import ctypes
+            kernel32 = ctypes.windll.kernel32
+            h = kernel32.GetStdHandle(-11)  # STD_OUTPUT_HANDLE
+            mode = ctypes.c_uint32()
+            if kernel32.GetConsoleMode(h, ctypes.byref(mode)):
+                kernel32.SetConsoleMode(h, mode.value | 0x0004)  # ENABLE_VIRTUAL_TERMINAL_PROCESSING
+        except Exception as e:
+
+            pass
+    enable_vt100_on_windows()
     # please maintain the oder of imports here
     from config import logger, BASE_DIR
     from apsimNGpy.core.config import load_crop_from_disk
