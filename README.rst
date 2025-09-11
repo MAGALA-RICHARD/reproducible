@@ -9,7 +9,7 @@ It is intended for **Windows** only, because the bundled APSIM binaries are comp
 Prerequisites
 -------------
 - Windows 10 or 11
-- Python 3.9+ (recommended 3.10–3.12)
+- Python 3.10+ (recommended 3.10–3.13)
 - Git (to clone this repository)
 - . NET 8.0 https://dotnet.microsoft.com/en-us/download/dotnet/8.0
 
@@ -22,10 +22,10 @@ Clone the repository
 
 Create and activate a virtual environment
 -----------------------------------------
+
 .. code-block:: bash
 
    python -m venv .venv
-
    # Activate it
    # Windows (PowerShell):
    .\.venv\Scripts\Activate.ps1
@@ -53,7 +53,7 @@ Using uv (optional)
 
 Run the example listings
 ------------------------
-All scripts are in this folder.
+All scripts are in this folder: reproducible.
 
 .. code-block:: bash
 
