@@ -51,7 +51,7 @@ Using uv (optional)
    python -m pip install -U uv
    uv pip install -r requirements.txt
 
-Run the example listings
+2. Run the example listings on the command line
 ------------------------
 All scripts are in this folder: reproducible.
 
@@ -73,7 +73,7 @@ Troubleshooting
 - If a script cannot find APSIM binaries, verify the folder layout and environment variables expected by your configuration.
 - you may also rebuild or install apsim version 7844 and provide the path to config.py
 
-Try the set_up.bat
+2. Try the set_up.bat
 ========================
 
 All the above steps have been bundled in set_up.bat. All that is needed it to install .NET using the link above
@@ -88,3 +88,16 @@ see the command line steps below
     git clone https://github.com/MAGALA-RICHARD/reproducible.git
     cd reproducible
     start set_up.bat
+
+3. Use the the jupiter notebook named jupiter_note_book_tests.ipnb.
+===================================================================
+   jupiter installation is required
+
+.. code-block:: bash
+
+    git clone https://github.com/MAGALA-RICHARD/reproducible.git
+    cd reproducible
+    jupiter_note_book_tests.ipnb
+
+
+Step 2 is the fastest and self contained all that is needed is to first install .Net framework, then clone the repository and run set_up.bat
