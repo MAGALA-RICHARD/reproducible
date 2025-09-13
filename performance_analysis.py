@@ -7,6 +7,7 @@ from new_core_runner import data
 import pandas as pd
 from constants import custom_colors
 import seaborn as sns
+import subprocess
 database = data/'simulated_core_size.db'
 tables = get_db_table_names(database)
 dat = (read_db_table(database, table) for table in tables)
@@ -47,6 +48,9 @@ plt.xlabel("APSIM simulations batch size", fontsize=x_font_size)
 plt.savefig('cpu.png')
 if hasattr(os, 'startfile'):
     os.startfile('cpu.png')
+else:
+
+    subprocess.call(['open', 'cpu_performance_cores.png'])
 
 #step 1: keep only core=1 as baseline
 baseline = df[df['core'] == 1][['size', 'seconds']].rename(columns={'seconds': 'baseline_seconds'})
@@ -91,4 +95,7 @@ plt.savefig('cpu_performance_cores.png')
 plt.tight_layout()
 if hasattr(os, 'startfile'):
     os.startfile('cpu_performance_cores.png')
+else:
+
+    subprocess.call(['open', 'cpu_performance_cores.png'])
 plt.close()
