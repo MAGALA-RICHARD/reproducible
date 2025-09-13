@@ -45,7 +45,8 @@ legend.set_title('CPU cores')
 plt.ylabel("Runtime (seconds)", fontsize=y_font_size)
 plt.xlabel("APSIM simulations batch size", fontsize=x_font_size)
 plt.savefig('cpu.png')
-os.startfile('cpu.png')
+if hasattr(os, 'startfile'):
+    os.startfile('cpu.png')
 
 #step 1: keep only core=1 as baseline
 baseline = df[df['core'] == 1][['size', 'seconds']].rename(columns={'seconds': 'baseline_seconds'})
@@ -88,5 +89,6 @@ plt.ylabel("Runtime speed gain", fontsize=y_font_size)
 plt.xlabel("APSIM simulations batch size", fontsize=x_font_size)
 plt.savefig('cpu_performance_cores.png')
 plt.tight_layout()
-os.startfile('cpu_performance_cores.png')
+if hasattr(os, 'startfile'):
+    os.startfile('cpu_performance_cores.png')
 plt.close()
