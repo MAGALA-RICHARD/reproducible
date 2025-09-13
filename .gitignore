@@ -214,7 +214,8 @@ __marimo__/
 
 !bin_dist/APSIM2025.8.7844.0/**
 !bin_dist/APSIM2025.8.7844.0/Examples/**
-
+!bin_dist/**
+!bin_dist/contents**
 ./demo
 demo/**
 
