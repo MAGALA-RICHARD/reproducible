@@ -1,6 +1,7 @@
 """
 This code runs listing 3
 """
+import subprocess
 from pathlib import Path
 import os
 from constants import custom_colors
@@ -30,7 +31,7 @@ if __name__ == '__main__':
                            xlabel='Nitrogen fertilizer (kg ha $^{-1}$)')
 
     logger.info('succeeded')
-    try:
+    if hasattr(os, 'startfile'):
         os.startfile(wd / 'experiment.png')
-    except Exception as e:
-        logger.error(e, f" opening the file automatically Please Open rendered plot at {wd / 'experiment.png'}")
+    else:
+        subprocess.call(['open', 'experiment.png'])
