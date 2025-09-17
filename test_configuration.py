@@ -60,8 +60,8 @@ class TestConfiguration(unittest.TestCase):
                 self.assertIsNotNone(ans, msg="configure_apsim_bin returned None")
 
     def test_configure_bin_path_when_os_is_not_supported(self):
-        """test that configure_bin_path is set correctly when os is not supported. we expect an error onl if the
-        preferered path is none of current_bin is none
+        """test that configure_bin_path is set correctly when os is not supported. we expect an ApsimBinPathConfigError,
+         only if the preferred path is none of current_bin is none
         """
         with self.assertRaises(ApsimBinPathConfigError):
             configure_bin_path(current_bin="", prefered=None, os_platform='linnux')
@@ -69,8 +69,11 @@ class TestConfiguration(unittest.TestCase):
     def test_configure_bin_path_when_os_is_macOS(self):
         """test that configure_bin_path is set correctly when os is MacOS, just test if the current bin path is valid
         """
-        ans = configure_bin_path(current_bin="", prefered=None, os_platform='Darwin')
-        print(ans)
+        with self.assertRaises(ApsimBinPathConfigError):
+            # because internally set_apsim_bin_path apply the appropriate logic to each OS platform, this will raise
+            # an ApsimBinPathConfigError, but it helps in not selecting the wrong dir for each platform
+            ans = configure_bin_path(current_bin="", prefered=None, os_platform='Darwin')
+
 
 
 if __name__ == '__main__':
