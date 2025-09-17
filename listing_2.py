@@ -26,7 +26,7 @@ if __name__ == '__main__':
     g._legend.set_bbox_to_anchor((0.1, 0.98))
     g._legend.set_frame_on(False)
     g._legend.set_loc("upper left")
-    experiment.render_plot(save_as=(wd / 'experiment.png').resolve(), dpi=600, show=False,
+    experiment.render_plot(save_as=(wd / 'experiment.png').resolve(), dpi=600, show=True,
                            ylabel='Simulated corn grain yield (kg ha $^{-1}$)',
                            xlabel='Nitrogen fertilizer (kg ha $^{-1}$)')
 
