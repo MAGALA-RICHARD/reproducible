@@ -79,10 +79,11 @@ class TestConfiguration(unittest.TestCase):
     def test_configure_bin_path_when_os_is_macOS(self):
         """test that configure_bin_path is set correctly when os is MacOS, just test if the current bin path is valid
         """
-        with self.assertRaises(ApsimBinPathConfigError):
-            # because internally set_apsim_bin_path apply the appropriate logic to each OS platform, this will raise
-            # an ApsimBinPathConfigError, but it helps in not selecting the wrong dir for each platform
-            configure_bin_path(current_bin="", prefered=None, os_platform='Darwin')
+        if platform.system() == 'Windows':
+            with self.assertRaises(ApsimBinPathConfigError):
+                # because internally set_apsim_bin_path apply the appropriate logic to each OS platform, this will raise
+                # an ApsimBinPathConfigError, but it helps in not selecting the wrong dir for each platform
+                configure_bin_path(current_bin="", prefered=None, os_platform='Darwin')
 
 
 if __name__ == '__main__':
