@@ -69,7 +69,6 @@ class TestConfiguration(unittest.TestCase):
     def test_configure_bin_path_when_os_is_macOS(self):
         """test that configure_bin_path is set correctly when os is MacOS, just test if the current bin path is valid
         """
-
         ans = configure_bin_path(current_bin="", prefered=None, os_platform='Darwin')
         print(ans)
 

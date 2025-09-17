@@ -49,10 +49,17 @@ def configure_bin_path(current_bin, os_platform=platform.system(), prefered=None
     what it did and returns `True` when a valid bin is available (either newly set
     or reusing an existing path).
 
-    Parameters ---------- current_bin : str | pathlib.Path | None The currently configured APSIM bin directory (e.g.,
-    from `get_apsim_bin_path()`), or `None` if not set. Validated via `validate_get_apsim_bin_path`. os_platform :
-    str, default=platform.system() Platform identifier used to choose built-in defaults. Expected values include
-    "Windows" and "Darwin". Other values receive no built-in default. prefered : str | pathlib.Path | None (Spelling
+    Parameters
+    ------------------------
+
+     current_bin : str | pathlib.Path | None The currently configured APSIM bin directory (e.g.,
+    from `get_apsim_bin_path()`), or `None` if not set. Validated via `validate_get_apsim_bin_path`.
+
+     os_platform: (str). This will be detected automatically no need to supply it. it is not included here for testing
+    default=platform.system() Platform identifier used to choose built-in defaults. Expected values include
+    "Windows" and "Darwin". Other values receive no built-in default.
+
+    prefered : str | pathlib.Path | None (Spelling
     kept for backward compatibility.) A preferred bin directory to try first. When provided, it is resolved with
     `locate_model_bin_path` and this function raises NotADirecotry errror. preferred could be provided only if the
     platform is linnux or user wants to test other apsim versions. or the compiled one in the current have some issues
