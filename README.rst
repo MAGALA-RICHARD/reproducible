@@ -8,7 +8,7 @@ It targets **Windows** only because the bundled APSIM binaries are compiled for 
 
 Cross-platform use (macOS/Linux)
 --------------------------------
-This repository is prepared for Windows only, but you can still run it on **macOS** or **Linux**.
+This repository is prepared for Windows and MacOS (tested on intel not apple silicon), but you can still run it on **macOS** or **Linux**.
 You will need to install APSIM NG for your platform (or build it), then follow the normal steps and
 **supply the APSIM binary path** using ``set_apsim_bin_path``:
 
@@ -22,7 +22,7 @@ Prerequisites
 - Windows 10 or 11 (recommended windows 11)
 - Python 3.10+ (recommended: 3.11 - 3.13)
 - Git (to clone this repository)
-- .NET 8.0 (install from https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+- .NET 8.0 (install from https://dotnet.microsoft.com/en-us/download/dotnet/8.0)  see the requirements for each platform https://apsimnextgeneration.netlify.app/install/macos/
 
 Quick Start (recommended)
 -------------------------
