@@ -32,13 +32,15 @@ class TestConfiguration(unittest.TestCase):
     def test_configure_bin_path_when_current_preferred(self):
         """test that configure_bin_path is set correctly when preferred is provided"""
         # Arrange: create a throwaway bin dir that "looks" like an APSIM bin
+        current = get_apsim_bin_path()
         with tempfile.TemporaryDirectory() as td:
             bin_d = Path(td) / "bin_test_dir"
             bin_d.mkdir(parents=True, exist_ok=True)
 
             # Create minimal markers so _is_valid_bin_dir(bin_d) will pass
             if platform.system() == "Windows":
-                (bin_d / "Models.exe").write_text("")  # empty file is fine for the test
+                (bin_d / "Models.exe").write_text(
+                    "")  # empty file is fine for the test, but there is a cath it will provide invalid dir later
                 (bin_d / "Models.dll").touch()
             else:
                 (bin_d / "Models").mkdir(exist_ok=True)  # folder commonly present
@@ -49,6 +51,12 @@ class TestConfiguration(unittest.TestCase):
             ans = configure_bin_path(current_bin=None, prefered=bin_d)
             # Assert
             self.assertIsNotNone(ans, msg="configure_apsim_bin returned None")
+            # 3 lastly reset back to normal
+            cc = configure_bin_path(current_bin=current, prefered=None)
+            if cc is not None:
+                logger.info(f"bin path configured back after testing another dir")
+            else:
+                logger.info(f"bin path reset failed")
 
     def test_configure_bin_path_when_current_preferred_has_no_executables(self):
         """test that configure_bin_path is set correctly when preferred is provided"""
@@ -78,5 +86,4 @@ class TestConfiguration(unittest.TestCase):
 
 
 if __name__ == '__main__':
-
-    unittest.main(verbosity=2)
+    unittest.main(verbosity=0)
