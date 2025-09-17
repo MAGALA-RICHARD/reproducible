@@ -30,7 +30,7 @@ def validate_get_apsim_bin_path(bin_path: str):
     return CUR_BIN_PATH
 
 
-def configure_bin_path(current_bin, os_platform=platform.system(), prefered=None):
+def configure_bin_path(current_bin, os_platform=platform.system(), prefered=None, verbose=False):
     """
        Configure the APSIM NG *bin* directory for this process (reproducible capsule).
 
@@ -137,11 +137,13 @@ def configure_bin_path(current_bin, os_platform=platform.system(), prefered=None
 
         if set_bin:
             # We just set env_BIN_PATH successfully
-            logger.info("APSIM Configured with bin path: → %s", str(env_BIN_PATH))
+            if verbose:
+                logger.info("APSIM Configured with bin path: → %s", str(env_BIN_PATH))
             return True
         elif CUR_BIN_PATH and CUR_BIN_PATH.exists():
             # No change; reusing an already-set path
-            logger.info("loading APSIM with existing bin path: → %s:", str(CUR_BIN_PATH))
+            if verbose:
+                logger.info("loading APSIM with existing bin path: → %s:", str(CUR_BIN_PATH))
             return True
         else:
             # Nothing configured and no valid previous path
