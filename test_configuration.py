@@ -14,6 +14,8 @@ class TestConfiguration(unittest.TestCase):
     def test_validate_get_apsim_bin_path_when_none(self):
         ans = validate_get_apsim_bin_path(self.get_apsim_bin_path_none)
         self.assertIsInstance(ans, Path)
+        if isinstance(ans, Path):
+            self.assertFalse(ans.exists())
 
     def test_configure_bin_path_when_not_None(self):
         ans = validate_get_apsim_bin_path(get_apsim_bin_path())
@@ -75,6 +77,5 @@ class TestConfiguration(unittest.TestCase):
             ans = configure_bin_path(current_bin="", prefered=None, os_platform='Darwin')
 
 
-
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(verbosity=2)
