@@ -74,8 +74,9 @@ class TestConfiguration(unittest.TestCase):
         with self.assertRaises(ApsimBinPathConfigError):
             # because internally set_apsim_bin_path apply the appropriate logic to each OS platform, this will raise
             # an ApsimBinPathConfigError, but it helps in not selecting the wrong dir for each platform
-            ans = configure_bin_path(current_bin="", prefered=None, os_platform='Darwin')
+            configure_bin_path(current_bin="", prefered=None, os_platform='Darwin')
 
 
 if __name__ == '__main__':
+
     unittest.main(verbosity=2)

@@ -137,15 +137,16 @@ def configure_bin_path(current_bin, os_platform=platform.system(), prefered=None
 
         if set_bin:
             # We just set env_BIN_PATH successfully
-            logger.info("AConfigure PSIM bin → %s | APSIM version:", str(env_BIN_PATH))
+            logger.info("APSIM Configure with bin path: → %s", str(env_BIN_PATH))
             return True
         elif CUR_BIN_PATH and CUR_BIN_PATH.exists():
             # No change; reusing an already-set path
-            logger.info("Using existing APSIM bin → %s | APSIM version:", str(CUR_BIN_PATH))
+            logger.info("loading APSIM with existing bin path: → %s:", str(CUR_BIN_PATH))
             return True
         else:
             # Nothing configured and no valid previous path
-            logger.error("APSIM bin not configured. Set APSIM_BIN or provide binaries. | version:", )
+            logger.error("APSIM bin path is  not yet configured. Set APSIM_BIN path explicitly using "
+                         "config_utils.configure_bin_path(prefered= 'your path'", )
     else:
         raise ApsimBinPathConfigError('APSIM bin path is not configured. Please install apsim or compile from github '
                                       'and provided the required bin path')
