@@ -1,12 +1,11 @@
 import shutil
-
+from apsimNGpy.core.mult_cores import MultiCoreManager
 if __name__ == "__main__":
 
     # please maintain the oder of imports here
 
     from config import logger, BASE_DIR
     from apsimNGpy.core.config import load_crop_from_disk
-    from apsimNGpy.core.mult_cores import MultiCoreManager
 
     logger.info('Loading data for parallel processing..')
     base_dir = BASE_DIR / 'demo'
