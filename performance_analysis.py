@@ -1,3 +1,49 @@
+"""
+Plot CPU scaling and speedup from APSIM NG simulation benchmarks.
+
+Overview
+--------
+This script reads per-batch runtime results from a SQLite database and produces two figures:
+1) **cpu.png** — total runtime (seconds) vs. batch size, with lines colored by CPU core count.
+2) **cpu_performance_cores.png** — relative speed gain (baseline = 1 core) vs. batch size,
+   again colored by core count.
+
+Data source
+-----------
+- Database path is derived from `new_core_runner.data` and expected to contain a file
+  named `simulated_core_size.db`.
+- All tables are read and concatenated. Expected columns include:
+  - `core` (int): number of CPU cores
+  - `size` (int): number of simulations in the batch
+  - `seconds` (float): total runtime in seconds for that batch
+
+Processing
+----------
+- Converts `core` into an ordered categorical to control legend ordering.
+- Computes helper metrics:
+  - `s/s` : seconds per simulation (`seconds / size`)
+  - `performance` : ratio vs. 1-core runtime (`seconds / baseline_seconds`)
+  - `ptimes` : speedup vs. 1-core (`baseline_seconds / seconds`)
+
+Outputs
+-------
+- Saves figures to `cpu.png` and `cpu_performance_cores.png`.
+- Attempts to open the images:
+  - On Windows: uses `os.startfile`.
+  - Otherwise: calls the system `open` command.
+
+Dependencies
+------------
+- pandas, seaborn, matplotlib
+- apsimNGpy.core_utils.database_utils: `read_db_table`, `get_db_table_names`
+- constants: `x_font_size`, `y_font_size`, `custom_colors`
+
+Notes
+-----
+- Ensure the database has consistent schemas across tables.
+- If running on non-macOS Unix where `open` is not available, replace the final
+  `subprocess.call(['open', ...])` with `xdg-open` or another launcher.
+"""
 import os
 from constants import x_font_size, y_font_size
 from apsimNGpy.core_utils.database_utils import read_db_table, get_db_table_names
