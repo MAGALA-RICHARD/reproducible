@@ -9,7 +9,7 @@ Measure how total runtime scales with:
 - **Batch sizes**: {100, 200, 300, 500, 700, 1000, 1500}
 
 For each (cores, size) pair, the script:
-1) materializes `size` APSIM NG model files (Maize) into a per-case subfolder,
+1) batch simulations `size` APSIM NG model files (Maize) into some times each placed in its folder,
 2) executes them in parallel via ``MultiCoreManager``,
 3) records wall-clock elapsed seconds, and
 4) writes a CSV artifact to ``data/table_{cores}{size}.csv`` (one row).
@@ -69,7 +69,6 @@ Example result row
    300,8,123.456
 
 """
-
 import os
 from pathlib import Path
 import pandas as pd
@@ -85,9 +84,7 @@ def insert_data_with_pd(db, table, results, if_exists):
     engine = create_engine(f'sqlite:///{db}')
     results.to_sql(table, engine, index=False, if_exists=if_exists)
 
-
-
-data = Path(__file__).parent.parent/ 'data'
+data = Path(__file__).parent/ 'data' # imported in performance_analysis.py
 if __name__ == "__main__":
     from config_utils import base_dir
     from apsimNGpy.core.mult_cores import MultiCoreManager
