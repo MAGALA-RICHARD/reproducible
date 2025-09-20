@@ -44,8 +44,6 @@ Quick Start (recommended)
 2. When the script finishes, the environment is prepared and the example listings will run.
    If the window closes immediately, re-run from an already-open Command Prompt.
 
-.. target-notes::
-
 
 Manual Setup (command line)
 ---------------------------
@@ -94,7 +92,6 @@ If you prefer to run steps yourself:
 
    Some version of python may require specifying python3 instead of python
 
-   Because listing_3 uses multiprocessing with a progress bar, the bar may not render inline when invoked from a shell script. Use one of the alternative run methods below instead.
 
 Using uv (optional)
 -------------------
