@@ -25,7 +25,7 @@ So, everything should be edited in that .py file. An example usage is given belo
 Prerequisites
 -------------
 - Windows 10 or 11 (recommended windows 11)
-- Python 3.10+ (recommended: 3.11 - 3.13)
+- Python 3.10+ (recommended:  3.12.2)
 - Git (to clone this repository)
 - .NET 8.0 (install from https://dotnet.microsoft.com/en-us/download/dotnet/8.0)  see the requirements for each platform https://apsimnextgeneration.netlify.app/install/macos/
 
@@ -43,6 +43,9 @@ Quick Start (recommended)
 
 2. When the script finishes, the environment is prepared and the example listings will run.
    If the window closes immediately, re-run from an already-open Command Prompt.
+
+.. target-notes::
+
 
 Manual Setup (command line)
 ---------------------------
@@ -87,6 +90,10 @@ If you prefer to run steps yourself:
       python listing_3.py
       python performance_analysis.py
 
+.. note::
+
+   Some version of python may require specifying python3 instead of python
+
 Using uv (optional)
 -------------------
 If you prefer the faster ``uv`` installer:
@@ -112,13 +119,13 @@ If you want to explore the notebook interactively:
 
       jupyter notebook jupiter_note_book_tests.ipynb
 
-Notes
+Recap
 -----
 - This directory targets Windows only. For macOS or Linux, install or build APSIM NG for your platform
   and set the binary path via ``set_apsim_bin_path`` (see *Cross-platform use* above).
 - Ensure Git is installed and available on your PATH before cloning.
-- Also, check the APSIM NG installation procedure for each of these platform: MacOS: https://apsimnextgeneration.netlify.app/install/macos
-linnux: https://apsimnextgeneration.netlify.app/install/linux
+- If you on unsupported platform, check the APSIM NG installation procedure for each of these platform: MacOS: https://apsimnextgeneration.netlify.app/install/macos
+linux: https://apsimnextgeneration.netlify.app/install/linux
 
 
 Troubleshooting
