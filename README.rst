@@ -121,10 +121,10 @@ If you want to explore the notebook interactively:
 
 Recap
 -----
-- This directory targets Windows only. For macOS or Linux, install or build APSIM NG for your platform
+- This directory targets Windows or intel-based MacOS only. For others, install or build APSIM NG for your platform
   and set the binary path via ``set_apsim_bin_path`` (see *Cross-platform use* above).
 - Ensure Git is installed and available on your PATH before cloning.
-- If you on unsupported platform, check the APSIM NG installation procedure for each of these platform: MacOS: https://apsimnextgeneration.netlify.app/install/macos
+- Check the APSIM NG installation procedure for each of these platform: MacOS: https://apsimnextgeneration.netlify.app/install/macos
 linux: https://apsimnextgeneration.netlify.app/install/linux
 
 
