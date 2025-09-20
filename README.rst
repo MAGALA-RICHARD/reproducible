@@ -4,13 +4,13 @@ Reproducible Tests for apsimNGpy
 Scope
 -----
 This folder provides a minimal, reproducible environment for testing **apsimNGpy**.
-It targets **Windows** only because the bundled APSIM binaries are compiled for Windows.
+It targets **Windows** or MacOS only because the bundled APSIM binaries are compiled for Windows and MacOS.
 
 Cross-platform use (macOS/Linux)
 --------------------------------
-This repository is prepared for Windows and MacOS (tested on intel not apple silicon), but you can still run it on **macOS** or **Linux**.
+This repository is prepared for Windows and MacOS (tested on intel not apple silicon), but you can still run it on  **Linux**. Although this has not been comprehensively tested
 You will need to install APSIM NG for your platform (or build it), then follow the normal steps and
-**supply the APSIM binary path** using ``set_apsim_bin_path``:
+**supply the APSIM binary path** using ``configure_bin_path`` `from config_utils.py`. Noted that this is implemented in *config*. So everything should be edited in that .py file:
 
 .. code-block:: python
 
