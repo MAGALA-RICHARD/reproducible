@@ -1,8 +1,60 @@
 """
-for testing config_utils.py. Some edge cases are tested here
+Tests for APSIM NG binary path configuration (config_utils.py)
+==============================================================
+
+Purpose
+-------
+Exercise edge cases and platform-specific logic in the configuration helpers that
+locate and validate the APSIM NG executables/libraries.
+
+Covers
+------
+- ``validate_get_apsim_bin_path(None)`` should return a ``Path`` placeholder that
+  may not exist (signals "unset" rather than crashing).
+- ``validate_get_apsim_bin_path(get_apsim_bin_path())`` should resolve to an
+  existing path on a correctly configured system.
+- ``configure_bin_path(...)`` behavior under multiple scenarios:
+  * preferred path is ``None`` (falls back to current/auto-detected),
+  * current path is ``None`` (selects a valid path or returns a safe value),
+  * preferred path provided and structurally valid → accepted,
+  * preferred path missing required executables → raises ``ApsimBinPathConfigError``.
+- Unsupported platform guard: passing an unknown ``os_platform`` raises ``ApsimBinPathConfigError``.
+- Cross-platform branch: when running on Windows, asking for macOS (``'Darwin'``)
+  logic with an empty current bin path is expected to raise
+  ``ApsimBinPathConfigError`` (protects against selecting incompatible layouts).
+
+Test strategy
+-------------
+- Uses a temporary directory that mimics an APSIM bin layout:
+  * Windows: creates stub ``Models.exe`` and ``Models.dll``.
+  * Unix-like: creates a ``Models/`` folder and a stub ``Models.dll``.
+- No actual binaries are executed; presence checks are structural only.
+- Original configuration is restored at the end of tests that modify state.
+
+Prerequisites
+-------------
+- ``config_utils.py`` exporting:
+  ``validate_get_apsim_bin_path``, ``configure_bin_path``, ``logger``,
+  and ``ApsimBinPathConfigError``.
+- ``apsimNGpy.core.config.get_apsim_bin_path`` available.
+- Python ``unittest`` standard library.
+
+How to run
+----------
+From the repository root (or the directory containing this file):
+
+.. code-block:: bash
+
+   python -m unittest -v path/to/this_test_file.py
+
+Notes
+-----
+- These tests do not require network or APSIM execution—only filesystem access.
+- If your environment uses nonstandard APSIM layouts, adjust the "marker" files
+  in the temporary bin to align with your validator’s requirements.
 """
+
 import platform
-import shutil
 import tempfile
 import unittest
 from config_utils import validate_get_apsim_bin_path, configure_bin_path, logger, ApsimBinPathConfigError
@@ -77,7 +129,7 @@ class TestConfiguration(unittest.TestCase):
          only if the preferred path is none of current_bin is none
         """
         with self.assertRaises(ApsimBinPathConfigError):
-            configure_bin_path(current_bin="", prefered=None, os_platform='linnux')
+            configure_bin_path(current_bin="", prefered=None, os_platform='linux')
 
     def test_configure_bin_path_when_os_is_macOS(self):
         """test that configure_bin_path is set correctly when os is MacOS, just test if the current bin path is valid

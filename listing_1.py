@@ -51,7 +51,7 @@ Notes
 
 from apsimNGpy.core.apsim import ApsimModel
 from pathlib import Path
-from config_utils import logger, BASE_DIR
+from config_utils import logger, BASE_DIR, RESULT
 wd = BASE_DIR / 'demo'
 wd.mkdir(exist_ok=True)
 if __name__ == '__main__':
@@ -92,9 +92,9 @@ if __name__ == '__main__':
     mn =dfs.mean(numeric_only=True)
     logger.info(f"mean summary of the data:\n {mn}")
     # save edited file
-    filename = str((wd / 'my-edited-maize-model.apsimx').resolve())
+    filename = str((RESULT / 'my-edited-maize-model.apsimx').resolve())
     # save simulated data
-    csv_file_name= str((wd / 'simulated.csv'))
+    csv_file_name= str((RESULT / 'simulated_saved_example.csv'))
     df.to_csv(csv_file_name, index=False)
     logger.info(f"simulated data saved to: {csv_file_name}")
     model.save(file_name=filename)
