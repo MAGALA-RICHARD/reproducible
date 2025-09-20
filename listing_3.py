@@ -20,7 +20,7 @@ if __name__ == "__main__":
 
     freeze_support()
     base_model = load_crop_from_disk("Maize", out=base_dir / "base.apsimx")
-    create_jobs = (shutil.copy2(base_model, str(base_dir / f'_{i}_.apsimx')) for i in range(100))# test a few
+    create_jobs = [shutil.copy2(base_model, str(base_dir / f'_{i}_.apsimx')) for i in range(100)]# test a few
     # initialize multicore manager
     task_manager = MultiCoreManager(str(data_base), agg_func='mean')
     # run all jobs
