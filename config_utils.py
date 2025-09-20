@@ -3,18 +3,10 @@ import logging
 from apsimNGpy.core.config import locate_model_bin_path, set_apsim_bin_path, apsim_version
 from apsimNGpy.exceptions import ApsimBinPathConfigError
 from pathlib import Path
+from apsimNGpy.settings import logger
 
 # do not move this file away from the root: reproducible
-BASE_DIR = Path(__file__).parent
-
-base_dir = Path(__file__).parent
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)s | %(message)s",
-    datefmt="%H:%M:%S",
-)
-logger = logging.getLogger("app")
+BASE_DIR = base_dir= Path(__file__).parent
 
 
 def validate_get_apsim_bin_path(bin_path: str):
@@ -143,7 +135,7 @@ def configure_bin_path(current_bin, os_platform=platform.system(), prefered=None
         elif CUR_BIN_PATH and CUR_BIN_PATH.exists():
             # No change; reusing an already-set path
             if verbose:
-                logger.info("loading APSIM with existing bin path: → %s:", str(CUR_BIN_PATH))
+                logger.info(f"loading APSIM with existing bin path: => %s:", str(CUR_BIN_PATH))
             return True
         else:
             # Nothing configured and no valid previous path
