@@ -240,12 +240,6 @@ Unlike ``demo/``, this directory is not automatically cleaned by scripts.
 Ad-hoc playground for local experiments; not part of the public API. Treat as
 temporary—move stabilized utilities into the codebase proper.
 
-``ts/``
--------
-
-Lightweight utilities or time-series related helpers used during performance tests
-and demos. (If you formalize tests, consider migrating into a dedicated ``tests/`` tree.)
-
 Key scripts & modules
 =====================
 
@@ -282,11 +276,10 @@ Reads timing results from a SQLite DB and produces figures:
 
 Relies on ``constants.py`` for palettes and font sizes.
 
-``config.py`` and ``configs.ini``
+``config.py``
 ---------------------------------
 
-Centralized configuration. Use ``configs.ini`` to override defaults (paths, logging,
-APSIM locations) without editing source.
+Centralized configuration.
 
 ``config_utils.py``
 -------------------
@@ -303,7 +296,7 @@ These folders are **created at runtime** in the project root if missing:
 - **``demo/``** — transient scratch space for examples and quick outputs.
 - **``Results/``** — durable outputs (plots, tables, logs) you want to retain.
 
-You can relocate these via your config (e.g., environment variables or explicit paths
+You can relocate these via config_utils.py (e.g., environment variables or explicit paths
 passed to the API). Ensure the process has write permission, especially when running
 inside containers or CI.
 
