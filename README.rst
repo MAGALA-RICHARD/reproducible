@@ -205,8 +205,7 @@ Directory details
 ``apsimx/``
 -----------
 
-Working folder where listings write **edited** APSIM NG models (``*.apsimx``) and
-figures (e.g., ``experiment.png``). Created when you run a listing that targets
+Working folder where listings write **edited** APSIM NG models (``*.apsimx``). Created when you run a listing that targets
 this directory.
 
 ``bin_dist/``
@@ -345,5 +344,3 @@ Notes & conventions
   - macOS: ``open ...`` (adjust to ``xdg-open`` on Linux if needed)
 - **Progress bars**: In headless/CI, tqdm may disable animation.
   The code auto-disables or degrades gracefully; you can also add a ``--no-progress`` mode.
-- **Reproducibility**: Keep input data and config under version control; pin Python
-  dependencies via ``requirements.txt`` for consistent environments.
