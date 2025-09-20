@@ -1,3 +1,75 @@
+"""
+Benchmarking parallel APSIM NG runs by core count and batch size
+================================================================
+
+Purpose
+-------
+Measure how total runtime scales with:
+- **CPU cores**: {1, 4, 8, 12, 16}
+- **Batch sizes**: {100, 200, 300, 500, 700, 1000, 1500}
+
+For each (cores, size) pair, the script:
+1) materializes `size` APSIM NG model files (Maize) into a per-case subfolder,
+2) executes them in parallel via ``MultiCoreManager``,
+3) records wall-clock elapsed seconds, and
+4) writes a CSV artifact to ``data/table_{cores}{size}.csv`` (one row).
+
+Inputs & dependencies
+---------------------
+- **APSIM NG** accessible to ``apsimNGpy`` (Maize template available).
+- ``apsimNGpy.core.apsim.ApsimModel`` for model instantiation.
+- ``apsimNGpy.core.mult_cores.MultiCoreManager`` for parallel execution.
+- ``config_utils.base_dir`` for project-relative paths.
+- Python packages: ``pandas``, ``sqlalchemy`` (optional; see DB note).
+
+Key variables
+-------------
+- ``job``: list of crop names (not used in this benchmark loop).
+- ``data``: path to the project ``data/`` directory (created if missing).
+- ``base``: workspace under ``<base_dir>/demo`` where per-case folders are created.
+- ``prod``: Cartesian product of cores × sizes to iterate over.
+
+Outputs
+-------
+- **Per-case CSV**: ``data/table_{cores}{size}.csv`` with columns:
+  - ``size``  (int): number of simulations in the batch
+  - ``core``  (int): worker processes used
+  - ``seconds`` (float): wall-clock time to complete the batch
+- **Optional (commented)**: a SQLite table write via ``insert_data_with_pd(...)`` if
+  you uncomment the call; target DB would be ``data/simulated_core_size.db``.
+
+Workflow details
+----------------
+- For each (core, size), a subdirectory ``demo/_{size}_{core}`` is created.
+- ``size`` individual Maize models are generated and saved in that folder
+  (e.g., ``{core}_{size}_{i}.apsimx``).
+- A ``MultiCoreManager`` is initialized with a scratch DB (``testiy.db``), then
+  ``run_all_jobs(...)`` is invoked with ``n_cores=core`` and ``threads=False``.
+- Elapsed time is computed with ``time.perf_counter()`` and stored in a one-row
+  DataFrame; the CSV is written under ``data/`` and used as a cache
+  (subsequent runs skip existing files).
+
+Notes & tips
+------------
+- **Idempotency**: If a CSV already exists for a (core, size) case, the script
+  skips re-running it (simple caching).
+- **Scratch cleanup**: ``Parallel.clear_scratch()`` is called before and after runs.
+- **Database logging (optional)**: To aggregate results in a single SQLite DB,
+  uncomment the ``insert_data_with_pd(...)`` call and ensure SQLAlchemy is installed.
+- **Working directory**: The script ``chdir``s into ``demo/`` so paths are local;
+  CSVs are still written to the project’s ``data/`` folder.
+- **Reproducibility**: The benchmark reflects system load and I/O; run on an
+  otherwise idle machine for cleaner comparisons.
+
+Example result row
+------------------
+.. code-block:: text
+
+   size,core,seconds
+   300,8,123.456
+
+"""
+
 import os
 from pathlib import Path
 import pandas as pd
@@ -46,7 +118,7 @@ if __name__ == "__main__":
             Parallel.clear_scratch()
 
             df = pd.DataFrame(dict(size=size, core=core, seconds=end - start), index=[f"{core}-{size}"])
-           # insert_data_with_pd(str(data / 'simulated_core_size.db'), table_name, df, 'replace')
+            insert_data_with_pd(str(data / 'simulated_core_size.db'), table_name, df, 'replace')
 
             df.to_csv(csf_file)
             time.sleep(1)
