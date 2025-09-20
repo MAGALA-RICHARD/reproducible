@@ -162,11 +162,11 @@ scratch directory is created by apsimNGpy internally for storing temporally file
 Project Layout (``reproducible``)
 ===============================
 
-This page documents the repository structure and what to expect in each folder/file.
-Paths below are shown relative to the project root (e.g., ``D:\code\reproducible``).
+
 
 Quick view
 ==========
+Below is what to expect in each folder/file. Paths below are shown relative to the project root (e.g., ``D:\code\reproducible``).
 
 .. code-block:: text
 
@@ -177,7 +177,7 @@ Quick view
    ├─ data/                        # keeps db files from the performance experiment
    ├─ demo/                        # Runtime scratch/workspace for examples (created on demand)
    ├─ Results/                     # Durable outputs (plots, CSVs) created at runtime
-   ├─ scratch/                     # Ad-hoc experiments, temporary artifacts
+   ├─ scratch/                     # Ad-hoc experiments, temporary artifacts created by apsimNGpy
    ├─ __pycache__/                 # Python bytecode (auto-generated)
    ├─ .gitignore
    ├─ config.py                    # Central settings (paths, logging, environment)
