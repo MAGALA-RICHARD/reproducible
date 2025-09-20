@@ -1,5 +1,5 @@
 """
-for testing config_utils.py
+for testing config_utils.py. Some edge cases are tested here
 """
 import platform
 import shutil
