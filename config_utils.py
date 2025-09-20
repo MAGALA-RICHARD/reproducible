@@ -130,7 +130,7 @@ def configure_bin_path(current_bin, os_platform=platform.system(), prefered=None
         if set_bin:
             # We just set env_BIN_PATH successfully
             if verbose:
-                logger.info("APSIM Configured with bin path: → %s", str(env_BIN_PATH))
+                logger.info("APSIM Configured with bin path: => %s", str(env_BIN_PATH))
             return True
         elif CUR_BIN_PATH and CUR_BIN_PATH.exists():
             # No change; reusing an already-set path
