@@ -10,7 +10,12 @@ Cross-platform use (macOS/Linux)
 --------------------------------
 This repository is prepared for Windows and MacOS (tested on intel not apple silicon), but you can still run it on  **Linux**. Although this has not been comprehensively tested
 You will need to install APSIM NG for your platform (or build it), then follow the normal steps and
-**supply the APSIM binary path** using ``configure_bin_path`` `from **config_utils.py**`. Noted that this is implemented in **config.py**. So everything should be edited in that .py file:
+**supply the APSIM binary path** using ``configure_bin_path`` `from **config_utils.py**`. Noted that this is implemented in **config.py**.
+So, everything should be edited in that .py file. An example usage is given below.
+
+.. note::
+
+    Note that if your platform is windows/Macos, no need to change this :
 
 .. code-block:: python
 
