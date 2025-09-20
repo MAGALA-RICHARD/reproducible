@@ -94,6 +94,8 @@ If you prefer to run steps yourself:
 
    Some version of python may require specifying python3 instead of python
 
+   Because listing_3 uses multiprocessing with a progress bar, the bar may not render inline when invoked from a shell script. Use one of the alternative run methods below instead.
+
 Using uv (optional)
 -------------------
 If you prefer the faster ``uv`` installer:
