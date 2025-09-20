@@ -48,7 +48,7 @@ import os
 from constants import x_font_size, y_font_size
 from apsimNGpy.core_utils.database_utils import read_db_table, get_db_table_names
 from matplotlib import pyplot as plt
-
+from config_utils import RESULT
 from new_core_runner import data
 import pandas as pd
 from constants import custom_colors
@@ -137,10 +137,10 @@ legend.set_bbox_to_anchor((0.99, 0.98))
 legend.set_loc("upper right")
 plt.ylabel("Runtime speed gain", fontsize=y_font_size)
 plt.xlabel("APSIM simulations batch size", fontsize=x_font_size)
-plt.savefig('cpu_performance_cores.png')
+plt.savefig(RESULT/'cpu_performance_cores.png')
 plt.tight_layout()
 if hasattr(os, 'startfile'):
-    os.startfile('cpu_performance_cores.png')
+    os.startfile(RESULT/'cpu_performance_cores.png')
 else:
 
     subprocess.call(['open', 'cpu_performance_cores.png'])
