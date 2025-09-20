@@ -1,4 +1,6 @@
-from Scripts.pywin32_postinstall import verbose
+"""
+It is used in all scripts to enforce the distributed APSIM binaries to be set to path
+"""
 from apsimNGpy.core.config import get_apsim_bin_path
 
 from config_utils import validate_get_apsim_bin_path, configure_bin_path, logger, BASE_DIR, base_dir
