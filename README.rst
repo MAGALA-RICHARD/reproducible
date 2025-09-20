@@ -154,3 +154,196 @@ You can change their locations via config or environment variables (e.g., APSIMG
 On cleanup, scripts may remove temporary files in demo/, but results/ is treated as durable output and is not deleted automatically.
 
 Ensure the process has write permissions to the chosen paths (especially in Docker/CI).
+
+scratch directory is created by apsimNGpy internally for storing temporally files
+
+
+===============================
+Project Layout (``reproducible``)
+===============================
+
+This page documents the repository structure and what to expect in each folder/file.
+Paths below are shown relative to the project root (e.g., ``D:\code\reproducible``).
+
+Quick view
+==========
+
+.. code-block:: text
+
+   .
+   ├─ .idea/                       # IDE metadata (ignored by tooling)
+   ├─ apsimx/                      # Working directory for APSIM NG models produced by listings
+   ├─ bin_dist/                    # (Optional) distributed APSIM NG binaries / runtime stubs
+   ├─ data/                        # keeps db files from the performance experiment
+   ├─ demo/                        # Runtime scratch/workspace for examples (created on demand)
+   ├─ Results/                     # Durable outputs (plots, CSVs) created at runtime
+   ├─ scratch/                     # Ad-hoc experiments, temporary artifacts
+   ├─ __pycache__/                 # Python bytecode (auto-generated)
+   ├─ .gitignore
+   ├─ config.py                    # Central settings (paths, logging, environment)
+   ├─ configs.ini                  # Optional INI overrides for defaults in ``config.py``
+   ├─ config_utils.py              # Helpers to locate/validate APSIM NG binaries; logging utilities
+   ├─ constants.py                 # Plot styles, font sizes, palettes used across scripts
+   ├─ jupiter_note_book_tests.ipynb# Notebook for interactive smoke tests/demos
+   ├─ lincense.txt                 # Project license
+   ├─ listing_1.py                 # Listing 1: minimal APSIM NG workflow with apsimNGpy
+   ├─ listing_2.py                 # Listing 2: (factorial/manager-focused) workflow
+   ├─ listing_3.py                 # Listing 3: multiprocessing/parallel example (progress-aware)
+   ├─ new_core_runner.py           # Shared runners/utilities for listings (e.g., data paths)
+   ├─ performance_analysis.py      # Benchmark plots (cores vs. runtime, speedups)
+   ├─ README.md
+   ├─ README.rst                   # Long-form docs (this .rst style)
+   ├─ requirements.txt             # Python dependencies
+   ├─ set_up.bat                   # Windows bootstrap (env, deps)
+   ├─ set_up.sh                    # POSIX bootstrap (env, deps)
+   ├─ test_configuration.py        # Unit tests for APSIM bin detection/config (edge cases)
+   └─ __init__.py                  # Package marker (keeps relative imports stable)
+
+Directory details
+=================
+
+``apsimx/``
+-----------
+
+Working folder where listings write **edited** APSIM NG models (``*.apsimx``) and
+figures (e.g., ``experiment.png``). Created when you run a listing that targets
+this directory.
+
+``bin_dist/``
+-------------
+
+If present, holds APSIM NG **runtime binaries** or a vendor snapshot used by
+``config_utils.py`` to auto-detect the executable path. Contents are platform-specific
+and may be excluded from version control depending on licensing.
+
+``data/``
+---------
+
+Canonical **inputs** for simulations and examples (weather, soils, small fixtures).
+Keep file names and formats stable so scripts can run reproducibly.
+
+``demo/``  *(runtime)*
+-----------------------
+
+Created **on demand** by listings (e.g., Listing 1). Used as a scratch/workspace for:
+edited ``.apsimx`` models, quick CSVs (e.g., ``simulated.csv``), and temporary
+artifacts safe to delete. Scripts will create it if missing.
+
+``Results/``  *(runtime)*
+--------------------------
+
+Durable outputs you want to **keep** (final plots, tables). Also created on demand.
+Unlike ``demo/``, this directory is not automatically cleaned by scripts.
+
+``scratch/``
+------------
+
+Ad-hoc playground for local experiments; not part of the public API. Treat as
+temporary—move stabilized utilities into the codebase proper.
+
+``ts/``
+-------
+
+Lightweight utilities or time-series related helpers used during performance tests
+and demos. (If you formalize tests, consider migrating into a dedicated ``tests/`` tree.)
+
+Key scripts & modules
+=====================
+
+``listing_1.py`` — Minimal APSIM NG workflow
+--------------------------------------------
+
+Instantiates an ``ApsimModel`` (e.g., *Maize*), inspects and edits parameters (e.g., sowing
+population), fetches weather from the web, adjusts the Clock, runs the simulation,
+and saves both the edited model (``my-edited-maize-model.apsimx``) and results CSV.
+
+Outputs: written under ``demo/`` and/or ``apsimx/``.
+
+``listing_2.py`` — Factorial/manager workflow
+---------------------------------------------
+
+Builds factorial scenarios programmatically (e.g., fertilizer amount × cultivar) using
+``ExperimentManager``, executes treatments, and plots results. Figures land in ``apsimx/`` or ``Results/``.
+
+``listing_3.py`` — Parallel execution with progress
+---------------------------------------------------
+
+Runs many simulations in parallel (multiprocessing) and shows a **tqdm** progress bar.
+Prefer running as a module (``python -m listing_3`` or ``python -m package.path.listing_3``)
+to keep relative imports stable. In non-TTY environments, fall back to plain updates.
+
+``performance_analysis.py`` — Benchmark visualizations
+------------------------------------------------------
+
+Reads timing results from a SQLite DB and produces figures:
+
+- ``f.png`` — total runtime vs. number of simulations (hue=cores)
+- ``f2.png`` — seconds-per-simulation vs. number of simulations
+- ``c.png`` — bar chart summary
+
+Relies on ``constants.py`` for palettes and font sizes.
+
+``config.py`` and ``configs.ini``
+---------------------------------
+
+Centralized configuration. Use ``configs.ini`` to override defaults (paths, logging,
+APSIM locations) without editing source.
+
+``config_utils.py``
+-------------------
+
+Validation and selection of the **APSIM NG binary path** across platforms.
+Unit tests (``test_configuration.py``) cover edge cases such as missing executables,
+unsupported OS labels, and temporary fake bin layouts.
+
+Runtime directories
+===================
+
+These folders are **created at runtime** in the project root if missing:
+
+- **``demo/``** — transient scratch space for examples and quick outputs.
+- **``Results/``** — durable outputs (plots, tables, logs) you want to retain.
+
+You can relocate these via your config (e.g., environment variables or explicit paths
+passed to the API). Ensure the process has write permission, especially when running
+inside containers or CI.
+
+Running the listings
+====================
+
+Windows (PowerShell/CMD):
+
+.. code-block:: bat
+
+   rem Create/activate venv and install deps
+   call set_up.bat
+
+   rem Run listings
+   py listing_1.py
+   py listing_2.py
+   py -m listing_3   rem use -m for multiprocessing safety
+
+POSIX (macOS/Linux):
+
+.. code-block:: bash
+
+   # Create/activate venv and install deps
+   bash set_up.sh
+
+   # Run listings
+   python listing_1.py
+   python listing_2.py
+   python -m listing_3   # module mode preferred with multiprocessing
+
+Notes & conventions
+===================
+
+- **APSIM binaries**: ``config_utils.py`` + ``config.py`` locate executables.
+  Use ``test_configuration.py`` to verify your setup if runs fail early.
+- **Plots**: Scripts attempt to open images after saving.
+  - Windows: ``os.startfile(...)``
+  - macOS: ``open ...`` (adjust to ``xdg-open`` on Linux if needed)
+- **Progress bars**: In headless/CI, tqdm may disable animation.
+  The code auto-disables or degrades gracefully; you can also add a ``--no-progress`` mode.
+- **Reproducibility**: Keep input data and config under version control; pin Python
+  dependencies via ``requirements.txt`` for consistent environments.
