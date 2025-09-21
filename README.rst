@@ -136,27 +136,6 @@ Troubleshooting
 - **PowerShell execution policy**: if activation fails in PowerShell, run it with
   ``-ExecutionPolicy Bypass`` or use CMD: ``call .venv\Scripts\activate.bat``.
 
-Runtime directories
-======================
-
-demo/ – Created automatically at runtime in the project root.
-Used as a scratch/workspace for examples and listings (e.g., edited .apsimx json files, and .db files, temporary inputs, quick CSVs).
-
-results/ – Also created at runtime in the project root.
-Stores persisted outputs such as simulation tables, plots, and logs you want to keep.
-
-Behavior & customization
-===============================
-Both folders are created on demand if they don’t exist.
-
-You can change their locations via config or environment variables (e.g., APSIMGN_DEMO_DIR, APSIMGN_RESULTS_DIR) or by passing explicit paths to the relevant APIs in your scripts.
-
-On cleanup, scripts may remove temporary files in demo/, but results/ is treated as durable output and is not deleted automatically.
-
-Ensure the process has write permissions to the chosen paths (especially in Docker/CI).
-
-scratch directory is created by apsimNGpy internally for storing temporally files
-
 
 ===============================
 Project Layout (``reproducible``)

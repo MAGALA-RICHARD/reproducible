@@ -59,6 +59,8 @@ Notes
 
 import shutil
 from apsimNGpy.core.mult_cores import MultiCoreManager
+import os
+CPU = max(2, os.cpu_count()//2)
 if __name__ == "__main__":
 
     # please maintain the oder of imports here
@@ -71,16 +73,17 @@ if __name__ == "__main__":
     base_dir.mkdir(parents=True, exist_ok=True)
     # create some jobs for the demo
     data_base = base_dir / 'demo.db'
+    CHUNK_size = int(CPU * 50)
     try:
         data_base.unlink(missing_ok=True)
     except PermissionError:
         pass
     base_model = load_crop_from_disk("Maize", out=base_dir / "base.apsimx")
-    create_jobs = [shutil.copy2(base_model, str(base_dir / f'_{i}_.apsimx')) for i in range(100)]# test a few
+    create_jobs = [shutil.copy2(base_model, str(base_dir / f'_{i}_.apsimx')) for i in range(CHUNK_size)]# test a few
     # initialize multicore manager
     task_manager = MultiCoreManager(str(data_base), agg_func='mean')
     # run all jobs
-    task_manager.run_all_jobs(create_jobs, n_cores=4, threads=False, clear_db=True)
+    task_manager.run_all_jobs(create_jobs, n_cores=CPU, threads=False, clear_db=True)
     # clear scratch directory
     task_manager.clear_scratch()
     # get the results
