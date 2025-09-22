@@ -58,18 +58,19 @@ Notes
 """
 import math
 import shutil
-from apsimNGpy.core.mult_cores import MultiCoreManager
 import os
+
 if os.cpu_count() == 1:
     raise SystemError('No need to test a single cpu core for apsimNGpy multiprocessing')
 
 if __name__ == "__main__":
-    # running code below this guard implies each is executed once for each process, the code above is executed once
-    # for all processes
-    CPU = int(max(2, math.ceil(os.cpu_count() * 0.85))) # to be safer
+    # running code below this guard implies that line is executed once for all processes, the code above is executed
+    # once for all processes
+    CPU = int(max(2, math.ceil(os.cpu_count() * 0.85)))  # I know math.ceil return an approximate int, but safety is
+    # better than confidence,
     # please maintain the oder of imports here
-
-    from config import logger, BASE_DIR
+    from config import logger, BASE_DIR  # loaded here to avoid repetitive logs in multi-processing mode
+    from apsimNGpy.core.mult_cores import MultiCoreManager
     from apsimNGpy.core.config import load_crop_from_disk
 
     logger.info('Loading data for parallel processing..')
@@ -77,7 +78,7 @@ if __name__ == "__main__":
     base_dir.mkdir(parents=True, exist_ok=True)
     # create some jobs for the demo
     data_base = base_dir / 'demo.db'
-    CHUNK_size = int(CPU * 50)
+    CHUNK_size = int(CPU * 30)
     try:
         data_base.unlink(missing_ok=True)
     except PermissionError:
