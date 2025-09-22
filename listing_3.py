@@ -59,9 +59,10 @@ Notes
 import math
 import shutil
 import os
+from config_utils import NotEnoughCpuCores
 
-if os.cpu_count() == 1:
-    raise SystemError('No need to test a single cpu core for apsimNGpy multiprocessing')
+if os.cpu_count() == 1:  # although uncommon today
+    raise NotEnoughCpuCores('No need to test a single cpu core for apsimNGpy multiprocessing')
 
 if __name__ == "__main__":
     # running code below this guard implies that line is executed once for all processes, the code above is executed
@@ -70,6 +71,7 @@ if __name__ == "__main__":
     # better than confidence,
     # please maintain the oder of imports here
     from config import logger, BASE_DIR  # loaded here to avoid repetitive logs in multi-processing mode
+
     from apsimNGpy.core.mult_cores import MultiCoreManager
     from apsimNGpy.core.config import load_crop_from_disk
 

@@ -6,7 +6,7 @@ from pathlib import Path
 from apsimNGpy.settings import logger
 
 # do not move this file away from the root: reproducible
-BASE_DIR = base_dir= Path(__file__).parent
+BASE_DIR = base_dir = Path(__file__).parent
 
 
 def validate_get_apsim_bin_path(bin_path: str):
@@ -145,6 +145,11 @@ def configure_bin_path(current_bin, os_platform=platform.system(), prefered=None
         raise ApsimBinPathConfigError('APSIM bin path is not configured. Please install apsim or compile from github '
                                       'and provided the required bin path')
 
-RESULT = BASE_DIR/'Results'
+
+RESULT = BASE_DIR / 'Results'
 
 RESULT.mkdir(exist_ok=True)
+
+
+class NotEnoughCpuCores(SystemError):
+    """ raised when the computer device has exactly one core, not enough to test multiprocessing capabilities"""
