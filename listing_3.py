@@ -56,15 +56,17 @@ Notes
   model variants (treatments) before submitting.
 
 """
-
+import math
 import shutil
 from apsimNGpy.core.mult_cores import MultiCoreManager
 import os
 if os.cpu_count() == 1:
     raise SystemError('No need to test a single cpu core for apsimNGpy multiprocessing')
-CPU = max(2, os.cpu_count()//2)
-if __name__ == "__main__":
 
+if __name__ == "__main__":
+    # running code below this guard implies each is executed once for each process, the code above is executed once
+    # for all processes
+    CPU = int(max(2, math.ceil(os.cpu_count() * 0.85))) # to be safer
     # please maintain the oder of imports here
 
     from config import logger, BASE_DIR
