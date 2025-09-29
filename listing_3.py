@@ -64,7 +64,8 @@ from config_utils import NotEnoughCpuCores
 if os.cpu_count() == 1:  # although uncommon today
     raise NotEnoughCpuCores('No need to test a single cpu core for apsimNGpy multiprocessing')
 
-if __name__ == "__main__":
+
+def main():
     # running code below this guard implies that line is executed once for all processes, the code above is executed
     # once for all processes
     CPU = int(max(2, math.ceil(os.cpu_count() * 0.85)))  # I know math.ceil return an approximate int, but safety is
@@ -98,3 +99,7 @@ if __name__ == "__main__":
     # same as
     data = task_manager.results
     logger.info('successfully completed listing 3')
+
+
+if __name__ == "__main__":
+      main()
