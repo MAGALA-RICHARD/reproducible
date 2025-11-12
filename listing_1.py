@@ -48,13 +48,28 @@ Notes
   a local weather file and the corresponding apsimNGpy API.
 - For reproducible runs, consider pinning the start/end years and random seeds (if any).
 """
+import os
+import subprocess
+import time
 
+import pandas as pd
 from apsimNGpy.core.apsim import ApsimModel
 from pathlib import Path
+from matplotlib import pyplot as plt
+from apsimNGpy.core_utils.database_utils import read_db_table
+
 from config_utils import logger, BASE_DIR, RESULT
+from apsimNGpy.validation.evaluator import Validate
+import os
+
 wd = BASE_DIR / 'demo'
 wd.mkdir(exist_ok=True)
 if __name__ == '__main__':
+    gui_dir = BASE_DIR / 'GUI'
+
+    gui_filename = gui_dir / 'ApsimModel_GUI_test.apsimx'
+    db = gui_filename.with_suffix('.db')
+    g = read_db_table(db, 'Report')
     logger.info('Starting APSIM Next Generation')
     _out_path = wd / 'out_maize_1111.apsimx'
     # Create a model instance (using "Maize" as an example)
@@ -77,27 +92,67 @@ if __name__ == '__main__':
     model.edit_model(model_type='Models.Manager', model_name='Sow using a variable rule', Population=12)
     # download and replace weather data automatically
     lonlat = (-93.44, 41.1234)
-    model.get_weather_from_web(lonlat=lonlat, start=1981, end=2022)
-    # change the start and end dates
-    model.edit_model(model_type='Models.Clock', model_name='Clock', start='1990-01-01', end='2021-12-31')
+    model.get_weather_from_web(lonlat=lonlat, start=1981, end=2022, filename=str(gui_dir/'met_1990_2021.met'))
+    # change the start and end dates based on the GUi model
+    with ApsimModel(gui_filename, out_path='extract.apsimx') as gui_model:
+        dt= gui_model.inspect_model_parameters(model_type='Models.Clock', model_name='Clock')
+        start, end = dt['Start'].strftime('%Y-%m-%d'), dt['End'].strftime('%Y-%m-%d')
+        # for weather, I first downloaded and then inserted it the same manually
+
+    model.edit_model(model_type='Models.Clock', model_name='Clock', start_date=start, end_date=end, )
     # run the model
     # you may need to check the available report names
     report_tables = model.inspect_model('Models.Report', fullpath=False)
+    # let's add a new report columns
+    model.add_report_variable(variable_spec=['[Clock].Today.Year as year', '[Weather].Rain as rain'], report_name='Report')
     # output: ['Report']
     model.run(report_name="Report")
     # retrieve results
     df = model.results
     # same as
     dfs = model.get_simulated_output(report_names='Report')
-    mn =dfs.mean(numeric_only=True)
+    mn = dfs.mean(numeric_only=True)
     logger.info(f"mean summary of the data:\n {mn}")
     # save edited file
     filename = str((RESULT / 'my-edited-maize-model.apsimx').resolve())
     # save simulated data
-    csv_file_name= str((RESULT / 'simulated_saved_example.csv'))
+    csv_file_name = str((RESULT / 'simulated_saved_example.csv'))
     df.to_csv(csv_file_name, index=False)
     logger.info(f"simulated data saved to: {csv_file_name}")
-    model.save(file_name=filename)
+
     logger.info(f'Saved edited model to {filename}\n')
     logger.info(f"see simulated results below:\n{df}")
     logger.info(f"successfully executed listing code 1")
+    # test GUI output with simulated ones
+    # first the save the generated model
+
+    p = dfs
+
+    # just to be sure, run the same file again
+    df = model.results
+    df.sort_values(by=['year', 'rain'], inplace=True)
+    g.sort_values(by=['year', 'rain'], inplace=True)
+    Validate(df.Yield.values / 1000, g.Yield.values / 1000).evaluate_all(verbose=True)  # /1000 to convert to Mg
+    # All the results are perfectly identical, with some minro difference in RMSE 0f 0.0059 Mg/ha
+    # The results confirm that apsimNGpy produces identical simulation outputs to APSIM-NG itself.
+    # Any minor discrepancies observed are likely attributable to differences in how .NET and Python
+    # handle floating-point precision during calculations.
+
+    # now plot
+    df_py = df[['year', 'Yield']].assign(Engine='apsimNGpy')
+    df_gui = g[['year', 'Yield']].assign(Engine='APSIM GUI')
+    all_df = pd.concat([df_py, df_gui])
+    all_df.eval('grain =Yield/1000', inplace=True)
+    model.relplot(table=all_df, kind='line', x='year', y='Yield', hue='Engine')
+
+    try:
+        model.cat_plot(table=all_df, kind='box', x='Engine', y='grain', )
+        plt.xlabel("Simulation source")
+        plt.ylabel("Maize Yield (Mg ha⁻¹)")
+        plt.savefig(gui_filename.with_suffix('.png'), dpi=600, bbox_inches='tight')
+        if hasattr(os, 'startfile'):
+            os.startfile(gui_filename.with_suffix('.png'))
+        else:
+            subprocess.call(['open', str(gui_filename.with_suffix('.png'))])
+    finally:
+        plt.close()

@@ -13,7 +13,7 @@ def validate_get_apsim_bin_path(bin_path: str):
     CUR_BIN_PATH = bin_path
     CUR_BIN_PATH = Path(CUR_BIN_PATH) if CUR_BIN_PATH and Path(CUR_BIN_PATH).exists() else Path(
         'path/do/not/exist/here')
-    # locate bin_bath # still can return none, but raise errors related to directory of file not found catch
+    # locate bin_bath # still can return none, but raise errors related to not a directory
     try:
         CUR_BIN_PATH = locate_model_bin_path(CUR_BIN_PATH)
     except (FileNotFoundError, NotADirectoryError):
