@@ -40,7 +40,7 @@
                 },
                 {
                   "$type": "Models.Factorial.Factor, Models",
-                  "Specification": "[Sow using a variable rule].Script.CultivarName= Pioneer_34K77,Melkassa,B_110,Dekalb_XL82",
+                  "Specification": "[Sow using a variable rule].Script.CultivarName = Pioneer_34K77,Melkassa,B_110,Dekalb_XL82",
                   "Name": "CultivarName",
                   "ResourceName": null,
                   "Children": [],
@@ -141,10 +141,10 @@
                     "[Maize].Total.Wt",
                     "[Clock].Today.Year as year",
                     "[Weather].Rain as rain",
-                    "sum([Nutrient].TotalC[:2] as soc",
+                    "sum([Nutrient].TotalC[:2]) as soc",
                     "sum([Soil].Nutrient.NO3.ppm[:2]) as nitrate",
                     "[Maize].AboveGround.Wt * 10 as agb",
-                    "[Nutrient].N2Oatm[1] as n20"
+                    "[Nutrient].N2Oatm[1] as n2o"
                   ],
                   "EventNames": [
                     "[Maize].Harvesting"

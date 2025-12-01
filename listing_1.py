@@ -57,19 +57,20 @@ from apsimNGpy.core.apsim import ApsimModel
 from pathlib import Path
 from matplotlib import pyplot as plt
 from apsimNGpy.core_utils.database_utils import read_db_table
-
 from config_utils import logger, BASE_DIR, RESULT
 from apsimNGpy.validation.evaluator import Validate
 import os
-
 wd = BASE_DIR / 'demo'
 wd.mkdir(exist_ok=True)
+
+
 if __name__ == '__main__':
     gui_dir = BASE_DIR / 'GUI'
 
     gui_filename = gui_dir / 'ApsimModel_GUI_test.apsimx'
     db = gui_filename.with_suffix('.db')
     g = read_db_table(db, 'Report')
+    g_data = read_db_table(db, 'Report').set_index('year', inplace=False)
     logger.info('Starting APSIM Next Generation')
     _out_path = wd / 'out_maize_1111.apsimx'
     # Create a model instance (using "Maize" as an example)
@@ -95,9 +96,9 @@ if __name__ == '__main__':
     model.get_weather_from_web(lonlat=lonlat, start=1981, end=2022, filename=str(gui_dir/'met_1990_2021.met'))
     # change the start and end dates based on the GUi model
     with ApsimModel(gui_filename, out_path='extract.apsimx') as gui_model:
-        dt= gui_model.inspect_model_parameters(model_type='Models.Clock', model_name='Clock')
+        dt = gui_model.inspect_model_parameters(model_type='Models.Clock', model_name='Clock')
         start, end = dt['Start'].strftime('%Y-%m-%d'), dt['End'].strftime('%Y-%m-%d')
-        # for weather, I first downloaded and then inserted it the same manually
+        # for weather, I first downloaded and then inserted it the same file manually
 
     model.edit_model(model_type='Models.Clock', model_name='Clock', start_date=start, end_date=end, )
     # run the model
@@ -156,3 +157,9 @@ if __name__ == '__main__':
             subprocess.call(['open', str(gui_filename.with_suffix('.png'))])
     finally:
         plt.close()
+
+    # Alternative and safe way
+    py = model.get_simulated_output('Report')
+    py.set_index('year', inplace=True)
+    data = py.join(g_data, lsuffix='_py', rsuffix='_g')
+    Validate(data.Yield_py.values / 1000, data.Yield_g.values/1000).evaluate_all(verbose=True)  #
