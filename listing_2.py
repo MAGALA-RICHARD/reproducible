@@ -67,6 +67,7 @@ with apsim_bin_context(dotenv_path="env_config/.env", bin_key="PROJECT_BIN"):
     from apsimNGpy.core.pythonet_config import is_file_format_modified
     from apsimNGpy.core.experimentmanager import ExperimentManager as Experiment
     from apsimNGpy.core.apsim import ApsimModel as Apsim
+
     if not is_file_format_modified():
         from apsimNGpy.core.apsim import ApsimModel
     else:
@@ -84,7 +85,9 @@ if __name__ == "__main__":
     cultivars = ",".join(df_gui.CultivarName.unique())
     wd.mkdir(exist_ok=True)
     os.chdir(wd)
-
+    # _______________________________________
+    # Just extracting the start and end dates
+    # ---------------------------------------
     with Apsim(gui_file, out_path="gui_extract.apsimx") as gui_model:
         dates = gui_model.inspect_model_parameters(model_type="Models.Clock", model_name="Clock")
         start, end = dates["Start"].strftime("%Y-%m-%d"), dates["End"].strftime("%Y-%m-%d")
@@ -169,26 +172,39 @@ if __name__ == "__main__":
         df_sim["Engine"], df_gui["Engine"] = "apsimNGpy", "APSIM GUI"
         all_df = pd.concat([df_sim, df_gui])
 
+        # _______________________________________
+        # All plots
+        # _________________________________________
         for var, label in labels.items():
 
             try:
                 experiment.relplot(x='year', y=var, kind="line", hue='Engine', table=all_df, errorbar=None)
-                plt.savefig(gui_dir / f"{gui_dir/var}_line.png")
+                plt.savefig(gui_dir / f"{gui_dir / var}_line.png")
                 plt.ylabel(label, fontsize=18)
                 plt.xlabel('Time (Years)', fontsize=18)
-                logger.info(f'figure saved at: `{gui_dir/var}_line.png`')
-                open_file(gui_dir / f"{gui_dir/var}_line.png")
+                logger.info(f'figure saved at: `{gui_dir / var}_line.png`')
+                open_file(gui_dir / f"{gui_dir / var}_line.png")
                 experiment.cat_plot(table=all_df, kind="box", x="Engine", y=var, hue="Amount")
                 plt.ylabel(label, fontsize=18)
                 plt.xlabel("Simulation source", fontsize=18)
                 plt.savefig(gui_dir / f"{var}.png", dpi=600, bbox_inches="tight")
                 logger.info(f'figure saved at: `{gui_dir / f"{var}.png"}`')
-                #open_file(gui_dir / f"{var}.png")
+                # open_file(gui_dir / f"{var}.png")
             finally:
                 plt.close()
 
     else:
         logger.warning("GUI simulation not found; skipping validation.")
     from apsimNGpy.optimizer.problems.back_end import eval_observed
-    df_gui['gui'] =df_gui['soc']
-    eval_observed(obs=df_gui, pred=df_sim, pred_col='soc', obs_col='gui', index=("year",'Clock.Today', "Amount", "CultivarName"))
+
+    df_gui['gui'] = df_gui['soc']
+    # _____________________________________________________________
+    # retesting using different indexing approach within apsimNGpy
+    # _____________________________________________________________
+    eval_observed(obs=df_gui, pred=df_sim, pred_col='soc', obs_col='gui',
+                  index=("year", 'Clock.Today', "Amount", "CultivarName"))
+    eval_observed(obs=df_gui, pred=df_sim, pred_col='soc', obs_col='gui',
+                  index=("year", 'Clock.Today', "Amount", "CultivarName"), method='rrmse')
+    eval_observed(obs=df_gui, pred=df_sim, pred_col='soc', obs_col='gui',
+                  index=("year", 'Clock.Today', "Amount", "CultivarName"), method='ccc')* -1
+
