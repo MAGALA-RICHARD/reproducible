@@ -63,7 +63,7 @@ from config_utils import NotEnoughCpuCores
 
 if os.cpu_count() == 1:  # although uncommon today
     raise NotEnoughCpuCores('No need to test a single cpu core for apsimNGpy multiprocessing')
-
+from apsimNGpy.core.config import apsim_bin_context
 
 def main():
     # running code below this guard implies that line is executed once for all processes, the code above is executed
@@ -72,9 +72,9 @@ def main():
     # better than confidence,
     # please maintain the oder of imports here
     from config import logger, BASE_DIR  # loaded here to avoid repetitive logs in multi-processing mode
-
-    from apsimNGpy.core.mult_cores import MultiCoreManager
-    from apsimNGpy.core.config import load_crop_from_disk
+    with apsim_bin_context(apsim_bin_path=r'bin_dist/APSIM2025.8.7844.0/bin'):
+        from apsimNGpy.core.mult_cores import MultiCoreManager
+        from apsimNGpy.core.config import load_crop_from_disk
 
     logger.info('Loading data for parallel processing..')
     base_dir = BASE_DIR / 'demo'
