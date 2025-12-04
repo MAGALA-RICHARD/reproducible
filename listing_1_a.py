@@ -7,8 +7,8 @@ The rest of the code below focuses on demonstrating model inspections and simula
 """
 # pinning workflow to a specific APSIM version or bin_path
 from apsimNGpy.core.config import apsim_bin_context
-with apsim_bin_context(dotenv_path='./config_env/.env', bin_key='BIN'):
-    from apsimNGpy.core.apsim import ApsimModel  # uses this bin path for loading
+with apsim_bin_context(dotenv_path="env_config/.env", bin_key="PROJECT_BIN"):
+    from apsimNGpy.core.apsim import ApsimModel
 
 from config_utils import BASE_DIR
 
