@@ -63,7 +63,7 @@ from utils import open_file, plot_reg_fit
 SEED = 40
 os.environ["PYTHONHASHSEED"] = str(SEED)
 
-with apsim_bin_context(dotenv_path="env_config/.env", bin_key="PROJECT_BIN"):
+with apsim_bin_context(apsim_bin_path=r'bin_dist/APSIM2025.8.7844.0/bin'):
     from apsimNGpy.core.pythonet_config import is_file_format_modified
     from apsimNGpy.core.experimentmanager import ExperimentManager as Experiment
     from apsimNGpy.core.apsim import ApsimModel as Apsim
