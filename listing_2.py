@@ -86,7 +86,7 @@ if __name__ == "__main__":
     wd.mkdir(exist_ok=True)
     os.chdir(wd)
     # _______________________________________
-    # Just extracting the start and end dates
+    # Just extracting the start and end dates, by using the with statement, the out_path will be deleted on block exit
     # ---------------------------------------
     with Apsim(gui_file, out_path="gui_extract.apsimx") as gui_model:
         dates = gui_model.inspect_model_parameters(model_type="Models.Clock", model_name="Clock")
