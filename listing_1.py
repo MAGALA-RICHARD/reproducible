@@ -52,7 +52,7 @@ import subprocess
 import pandas as pd
 from apsimNGpy.core.config import apsim_bin_context
 
-with apsim_bin_context(dotenv_path="env_config/.env", bin_key="PROJECT_BIN"):
+with apsim_bin_context(apsim_bin_path=r'bin_dist/APSIM2025.8.7844.0/bin'):
     from apsimNGpy.core.apsim import ApsimModel
 from matplotlib import pyplot as plt
 from apsimNGpy.core_utils.database_utils import read_db_table
